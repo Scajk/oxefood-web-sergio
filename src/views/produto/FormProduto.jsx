@@ -1,6 +1,6 @@
 import React from "react";
 import InputMask from 'react-input-mask';
-import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import { Button, Container, Divider, Form, Icon, TextArea } from 'semantic-ui-react';
 
 export default function FormProduto () {
 
@@ -26,15 +26,17 @@ export default function FormProduto () {
                                     required
                                     fluid
                                     label='Título'
-                                    maxLength="100"
                                     placeholder='Informe o título do produto'
+                                    width={6}
                                 />
 
                                 <Form.Input
                                     required
                                     fluid
                                     label='Código do Produto'
-                                    placeholder='Informe o código do produto'>
+                                    placeholder='Informe o código do produto'
+                                    maxLength="100"
+                                    width={1}>
                                     <InputMask
                                         required
                                         mask="999999"
@@ -43,6 +45,8 @@ export default function FormProduto () {
                                 </Form.Input>
 
                             </Form.Group>
+
+                            <TextArea placeholder='Informe a descrição do produto' style={{ minHeight: 100 }} />
                             
                             <Form.Group>
 
