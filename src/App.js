@@ -3,6 +3,7 @@ import './App.css';
 import Home from './views/home/Home';
 import FormCliente from './views/cliente/FormCliente';
 import FormProduto from './views/produto/FormProduto';
+import FormEntregador from './views/entregador/FormEntregador';
 
 function App() {
 
