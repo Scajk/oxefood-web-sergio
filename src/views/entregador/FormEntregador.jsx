@@ -1,7 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
-import { Button, Container, Divider, Form, Icon, Radio, Checkbox } from "semantic-ui-react";
+import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
+
+const ufs = [
+  { key: 'PE', value: 'PE', text: 'Pernambuco' },
+  { key: 'BA', value: 'BA', text: 'Bahia' },
+  { key: 'RJ', value: 'RJ', text: 'Rio de Janeiro' },
+]
 
 export default function FormEntregador() {
   const [nome, setNome] = useState();
@@ -88,13 +94,9 @@ export default function FormEntregador() {
                   />
                 </Form.Input>
 
-                <Form.Input fluid label="RG">
-                  <InputMask
-                    required
-                    mask="999.999.999-99"
-                    value={rg}
-                    onChange={(e) => setRg(e.target.value)}
-                  />
+                <Form.Input fluid label="RG"
+                value={rg}
+                onChange={(e) => setRg(e.target.value)}>
                 </Form.Input>
               </Form.Group>
 
@@ -183,7 +185,6 @@ export default function FormEntregador() {
                 <Form.Input fluid label="CEP">
                   <InputMask
                     mask="99999-999"
-                    placeholder="Ex:99999-999"
                     value={enderecoCep}
                     onChange={(e) => setEnderecoCep(e.target.value)}
                   />
@@ -191,13 +192,14 @@ export default function FormEntregador() {
               </Form.Group>
 
               <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  label="UF"
-                  maxLength="100"
-                  value={enderecoUf}
-                  onChange={(e) => setEnderecoUf(e.target.value)}
-                />
+              <Form.Select
+                    fluid
+                    label='UF'
+                    options={ufs}
+                    placeholder='Selecione'
+                    value={enderecoUf}
+                    onChange={(e,{value}) => {setEnderecoUf(value)}}
+              />
               </Form.Group>
 
               <Form.Group widths="equal">
@@ -205,34 +207,27 @@ export default function FormEntregador() {
                   fluid
                   label="Complemento"
                   maxLength="100"
-                  value={enderecoComplemento}
+                  checked={enderecoComplemento}
                   onChange={(e) => setEnderecoComplemento(e.target.value)}
                 />
               </Form.Group>
 
-              <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  label="Complemento"
-                  maxLength="100"
-                  checked={ativo}
-                  onChange={(e) => setAtivo(e.target.value)}
-                />
-              </Form.Group>
+              <Form.Group inline>
 
-              <Form.Group widths="equal">
-              <Checkbox
-                  radio
-                  label='Choose this'
-                  checked={ativo}
-                  onChange={(e) => setAtivo(e.target.value)}
-                />
-                <Checkbox
-                  radio
-                  label='Choose this'
-                  checked={ativo}
-                  onChange={(e) => setAtivo(e.target.value)}
-                />
+                <label>Ativo: </label>
+
+              <Form.Radio
+                label='Sim'
+                checked={ativo}
+                onChange={e => setAtivo(true)}
+              />
+
+              <Form.Radio
+                label='Não'
+                checked={!ativo}
+                onChange={e => setAtivo(false)}
+              />
+
               </Form.Group>
             </Form>
 
