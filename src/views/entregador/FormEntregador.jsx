@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
+import MenuSistema from '../../MenuSistema';
 
 const ufs = [
   { key: 'PE', value: 'PE', text: 'Pernambuco' },
@@ -59,6 +60,9 @@ export default function FormEntregador() {
 
   return (
     <div>
+
+    <MenuSistema />
+
       <div style={{ marginTop: "3%" }}>
         <Container textAlign="justified">
           <h2>
