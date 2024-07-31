@@ -8,7 +8,6 @@ import MenuSistema from "../../MenuSistema";
 export default function FormCliente() {
   const { state } = useLocation();
   const [idCliente, setIdCliente] = useState();
-
   const [nome, setNome] = useState();
   const [cpf, setCpf] = useState();
   const [dataNascimento, setDataNascimento] = useState();
@@ -51,22 +50,13 @@ export default function FormCliente() {
     if (idCliente != null) { //Alteração:
       axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
       .then((response) => { console.log('Cliente alterado com sucesso.') })
-      .catch((error) => { console.log('Erro ao alter um cliente.') })
+      .catch((error) => { console.log('Erro ao alterar um cliente.') })
   } else { //Cadastro:
       axios.post("http://localhost:8080/api/cliente", clienteRequest)
       .then((response) => { console.log('Cliente cadastrado com sucesso.') })
       .catch((error) => { console.log('Erro ao incluir o cliente.') })
   }
-
-    axios
-      .post("http://localhost:8080/api/cliente", clienteRequest)
-      .then((response) => {
-        console.log("Cliente cadastrado com sucesso.");
-      })
-      .catch((error) => {
-        console.log("Erro ao incluir o um cliente.");
-      });
-  }
+}
 
   return (
     <div>
