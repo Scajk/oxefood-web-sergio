@@ -1,4 +1,7 @@
+import React from 'react';
 import { Segment } from 'semantic-ui-react';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 import Rotas from './Rotas';
 
@@ -8,7 +11,7 @@ function App() {
 
     
     <div className="App">
-      
+      <ToastContainer />
       <Rotas />
 
       <div style={{marginTop: '6%'}}>

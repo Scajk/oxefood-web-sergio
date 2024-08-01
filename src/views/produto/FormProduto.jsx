@@ -1,4 +1,5 @@
 import axios from "axios";
+import {mensagemErro, notifyError, notifySuccess } from '../../views/util/Util';
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon, TextArea } from 'semantic-ui-react';
@@ -55,12 +56,22 @@ export default function FormProduto() {
 
         if (idProduto != null) { //Alteração:
             axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
-                .then((response) => { console.log('Produto alterado com sucesso.') })
-                .catch((error) => { console.log('Erro ao alterar um produto.') })
+            .then((response) => { notifySuccess('Produto alterado com sucesso.')
+            })
+            .catch((error) => { if(error.response) {
+              notifyError(error.response.data.message)
+            } else {notifyError(mensagemErro)
+            }
+            })
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/produto", produtoRequest)
-                .then((response) => { console.log('Produto cadastrado com sucesso.') })
-                .catch((error) => { console.log('Erro ao incluir o produto.') })
+            .then((response) => { notifySuccess('Produto cadastrado com sucesso.') })
+            .catch((error) => { if (error.response) {
+              notifyError(error.response.data.message)
+              } else {
+              notifyError(mensagemErro)
+              } 
+              })
         }
     }
 
