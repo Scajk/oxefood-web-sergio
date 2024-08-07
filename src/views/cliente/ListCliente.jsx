@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table, Modal, Header } from 'semantic-ui-react';
+import { Button, Container, Divider, Icon, Table, Modal, Header, Menu, Segment, Form } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 export default function ListCliente () {
@@ -9,7 +9,10 @@ export default function ListCliente () {
    const [lista, setLista] = useState([]);
    const [openModal, setOpenModal] = useState(false);
    const [idRemover, setIdRemover] = useState();
-
+   const [menuFiltro, setMenuFiltro] = useState();
+   const [idCliente, setIdCliente] = useState();
+   const [nome, setNome] = useState();
+   const [cpf, setCpf] = useState();
 
    useEffect(() => {
        carregarLista();
@@ -35,6 +38,44 @@ export default function ListCliente () {
 function confirmaRemover(id) {
     setOpenModal(true)
     setIdRemover(id)
+}
+
+function handleMenuFiltro() {
+
+    if (menuFiltro === true) {
+        setMenuFiltro(false);
+    } else {
+        setMenuFiltro(true);
+    }
+}
+
+function handleChangeNome(value) {
+
+    filtrarClientes(value, cpf, idCliente);
+}
+
+function handleChangeCpf(value) {
+
+    filtrarClientes(nome, value, idCliente);
+}
+
+async function filtrarClientes(nomeParam, cpfParam) {
+
+    let formData = new FormData();
+
+    if (nomeParam !== undefined) {
+        setNome(nomeParam)
+        formData.append('nome', nomeParam);
+    }
+    if (cpfParam !== undefined) {
+        setCpf(cpfParam)
+        formData.append('cpf', cpfParam);
+    }
+
+    await axios.post("http://localhost:8080/api/cliente/filtrar", formData)
+    .then((response) => {
+        setLista(response.data)
+    })
 }
 
 async function remover() {
@@ -65,6 +106,17 @@ return(
                 <h2> Cliente </h2>
                 <Divider />
 
+                <Menu compact>
+                               <Menu.Item
+                                   name='menuFiltro'
+                                   active={menuFiltro === true}
+                                   onClick={() => handleMenuFiltro()}
+                               >
+                                   <Icon name='filter' />
+                                   Filtrar
+                               </Menu.Item>
+                           </Menu>
+
                 <div style={{marginTop: '4%'}}>
                     <Button
                         label='Novo'
@@ -75,7 +127,36 @@ return(
                         as={Link}
                         to='/form-cliente'
                     />
-                                           <br/><br/><br/>
+                    <br/><br/><br/>
+
+                    { menuFiltro ?
+                            
+                            <Segment>
+                                <Form className="form-filtros">
+                        
+                                    <br/><br/><br/>
+                  
+                                    <Form.Group widths='equal'>  
+                                        <Form.Input
+                                        icon="search"
+                                        value={nome}
+                                        onChange={e => handleChangeNome(e.target.value)}
+                                        label='Nome'
+                                        placeholder='Filtrar por nome'
+                                        labelPosition='left'
+                                    />
+                                        <Form.Input
+                                            icon="search"
+                                            value={cpf}
+                                            onChange={e => handleChangeCpf(e.target.value)}
+                                            label='Cpf'
+                                            placeholder='Filtrar por cpf'
+                                            labelPosition='left'
+                                    />
+                                        </Form.Group>
+        </Form>
+    </Segment>:""
+}
                   
                   <Table color='orange' sortable celled>
 
